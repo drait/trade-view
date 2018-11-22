@@ -3,31 +3,32 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Trade } from './trade';
+import { TradesService } from './trades.service';
 
-interface Trade {
-  Pick: string;
-  Buy: Date;
-  Sell: Date;
-}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  trades: Trade[] = [];
   tradeForm = this.fb.group({
     pick: ['', Validators.required],
     buy: ['', Validators.required],
     sell: ['']
   });
   tradesCollection: AngularFirestoreCollection<Trade>;
-  trades: Observable<Trade[]>
 
-  constructor(private afs: AngularFirestore, private fb: FormBuilder) { }
+  constructor(public data: TradesService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.tradesCollection = this.afs.collection('trades');
-    this.trades = this.tradesCollection.valueChanges();
+    this.data.getTrades().subscribe(
+      (trades: Trade[]) => {
+        this.trades = trades;
+        console.log(this.trades);
+      }
+    );
   }
 
   onSubmit() {
