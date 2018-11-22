@@ -1,0 +1,24 @@
+<form [formGroup]="tradeForm" (ngSubmit)="onSubmit()" class="trade-form">
+  <div>
+    <mat-form-field>
+      <textarea matInput formControlName="pick" placeholder="Pick"></textarea>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput formControlName="buy" [matDatepicker]="buy" placeholder="BUY Date">
+      <mat-datepicker-toggle matSuffix [for]="buy"></mat-datepicker-toggle>
+      <mat-datepicker #buy></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput formControlName="sell" [matDatepicker]="sell" placeholder="SELL Date">
+      <mat-datepicker-toggle matSuffix [for]="sell"></mat-datepicker-toggle>
+      <mat-datepicker #sell></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-raised-button type="submit" [disabled]="!tradeForm.valid" color="primary">Add Trade</button>
+  </div>
+</form>
