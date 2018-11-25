@@ -1,5 +1,6 @@
-export class Trade {
-    public constructor(public id:String, public Pick:String, public Buy:Date, public Sell:Date){
-
-    }
+export interface Trade {
+    id: String;
+    Pick: String;
+    Buy: Date;
+    Sell: Date
 }

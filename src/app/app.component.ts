@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Trade } from './trade';
 import { TradesService } from './trades.service';
@@ -18,12 +15,11 @@ export class AppComponent implements OnInit {
     buy: ['', Validators.required],
     sell: ['']
   });
-  tradesCollection: AngularFirestoreCollection<Trade>;
 
-  constructor(public data: TradesService, private fb: FormBuilder) { }
+  constructor(public tradeService: TradesService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.data.getTrades().subscribe(
+    this.tradeService.getTrades().subscribe(
       (trades: Trade[]) => {
         this.trades = trades;
         console.log(this.trades);
@@ -31,8 +27,16 @@ export class AppComponent implements OnInit {
     );
   }
 
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.tradeForm.value);
+  onSubmit(value) {
+    this.tradeService.addTrade({
+      "pick": value.pick,
+      "buy": value.buy,
+      "sell": value.sell
+    });
+  }
+
+  delete(trade) {
+    console.log(trade.id);
+    this.tradeService.deleteTrade(trade);
   }
 }

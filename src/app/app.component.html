@@ -1,5 +1,10 @@
-
-<form [formGroup]="tradeForm" (ngSubmit)="onSubmit()" class="trade-form">
+<ul>
+  <li *ngFor="let trade of trades">
+    {{ trade.pick }}
+    <button mat-raised-button type="submit"  (click)="delete(trade)" color="warn">Delete Trade</button>
+  </li>
+</ul>
+<form [formGroup]="tradeForm" (ngSubmit)="onSubmit(tradeForm.value)" class="trade-form">
   <div>
     <mat-form-field>
       <textarea matInput formControlName="pick" placeholder="Pick"></textarea>

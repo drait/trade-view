@@ -11,9 +11,9 @@ export class TradesService {
   tradescollection: AngularFirestoreCollection<Trade>;
   trades: Observable<Trade[]>;
   tradeDoc: AngularFirestoreDocument<Trade>;
-  
+
   constructor(public afs: AngularFirestore) {
-    this.tradescollection = this.afs.collection('Trades', x => x.orderBy('Pick', 'asc'));
+    this.tradescollection = this.afs.collection('trades');
     this.trades = this.tradescollection.snapshotChanges().pipe(map(
       changes => {
         return changes.map(
@@ -31,7 +31,7 @@ export class TradesService {
     this.tradescollection.add(trade);
   }
   deleteTrade(trade) {
-    this.tradeDoc = this.afs.doc(`Trades/${trade.id}`);
+    this.tradeDoc = this.afs.doc(`trades/${trade.id}`);
     this.tradeDoc.delete();
   }
 }
